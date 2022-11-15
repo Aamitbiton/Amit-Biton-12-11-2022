@@ -9,7 +9,7 @@ export async function fetch_url({ url, params }: fetchData) {
     method: "GET",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     url,
-    params: { apikey: "KF0SR4VoLiQuG8S03vwzG4PLXDX8ZynH" },
+    params: { apikey: "e3MSZUGL598CrYKMK9oclATC0qv0SgzE" },
   };
   if (params) options.params = { ...params, ...options.params };
   try {
