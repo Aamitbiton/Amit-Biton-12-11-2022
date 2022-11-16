@@ -7,8 +7,9 @@ interface IGeoLocation {
 }
 
 const getLocation = (): IGeoLocation | any => {
+  const options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
   return new Promise((resolve, reject) =>
-    navigator.geolocation.getCurrentPosition(resolve, reject)
+    navigator.geolocation.getCurrentPosition(resolve, reject, options)
   );
 };
 
