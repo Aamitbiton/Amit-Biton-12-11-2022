@@ -1,7 +1,13 @@
 import { fetch_url } from "./fetchFunction";
 import store from "../store/store";
-import {autoCompleteUrl, geoPositionSearchUrl, getCurrentConditionsUrl} from "./urlGenerator";
+import {
+  autoCompleteUrl,
+  geoPositionSearchUrl,
+  getCurrentConditionsUrl,
+  getDailyForecastUrl,
+} from "./urlGenerator";
 import { setCurrentLocation } from "../store/slice";
+import asyncMiddleware from "./utils";
 interface IGeoLocation {
   coords: { latitude: number; longitude: number };
 }
@@ -14,7 +20,6 @@ const getLocation = (): IGeoLocation | any => {
 };
 
 export const getLocationLabel = (location: any): string => {
-  console.count("getlabel");
   if (!location.LocalizedName) return "";
   return (
     location?.LocalizedName +
@@ -27,25 +32,44 @@ export const getLocationLabel = (location: any): string => {
 
 export const getWeatherByLocation = async () => {
   const myLocation = await getLocation();
-  let params = {
-    q: `${myLocation.coords.latitude},${myLocation.coords.longitude}`,
+  let locationObject = await getLocationObject(myLocation);
+  let weatherObject = await getWeatherObject(locationObject);
+  let dailyForecast = await getDailyForecast(locationObject.Key);
+  let newData = {
+    ...weatherObject,
+    ...locationObject,
+    ...dailyForecast,
   };
-  let locationObject = await fetch_url({ url: geoPositionSearchUrl, params });
-  let weatherObject = await fetch_url({
-    url: getCurrentConditionsUrl(locationObject?.data.Key),
-  });
-  let newData = { ...weatherObject?.data[0], ...locationObject?.data };
   store.dispatch(setCurrentLocation(newData));
 };
 
 export const changeCurrentLocation = async (locationObject: any) => {
-  let weatherObject = await fetch_url({
-    url: getCurrentConditionsUrl(locationObject?.Key),
-  });
-  let newData = { ...weatherObject?.data[0], ...locationObject };
+  let weatherObject = await getWeatherObject(locationObject)
+  let dailyForecast = await getDailyForecast(locationObject?.Key)
+  let newData = { ...weatherObject, ...locationObject, ...dailyForecast};
   await store.dispatch(setCurrentLocation(newData));
 };
 
-export const getAutoCompleteData = async (value: string) =>{
-  return fetch_url({ url: autoCompleteUrl, params: { q: value } })
-}
+export const getAutoCompleteData = async (value: string) => {
+  return fetch_url({ url: autoCompleteUrl, params: { q: value } });
+};
+
+export const getDailyForecast = async (key: string) => {
+    let res = await fetch_url({ url: getDailyForecastUrl(key) });
+    return {DailyForecasts: res?.data?.DailyForecasts}
+};
+
+export const getWeatherObject = async (locationObject: any) => {
+    let res = await (fetch_url({
+      url: getCurrentConditionsUrl(locationObject?.Key),
+    }));
+    return res?.data[0];
+};
+
+export const getLocationObject = async (myLocation: any) => {
+  let params = {
+    q: `${myLocation.coords.latitude},${myLocation.coords.longitude}`,
+  };
+  let res =  await fetch_url({ url: geoPositionSearchUrl, params });
+  return res?.data
+};

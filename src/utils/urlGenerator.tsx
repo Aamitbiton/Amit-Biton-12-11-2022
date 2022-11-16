@@ -6,3 +6,5 @@ export const autoCompleteUrl =
 
 export const geoPositionSearchUrl =
   "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
+export const getDailyForecastUrl = (key: string) =>
+    `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}`

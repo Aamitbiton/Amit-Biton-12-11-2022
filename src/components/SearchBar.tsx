@@ -14,12 +14,16 @@ const SearchBar = () => {
   const [options, setOptions] = useState<any>([{ currentLocation }]);
 
   const handleChange = async (newValue: any) => {
+      if (!newValue) {
+          setValue('')
+          return
+      }
     setValue(newValue);
-    await changeCurrentLocation(newValue);
+      await changeCurrentLocation(newValue);
   };
   const updateOptions = async (newInputValue: string)=>{
        setInputValue(newInputValue);
-       if (newInputValue.length < 2) return;
+       if (newInputValue.length > 2 || !newInputValue || newInputValue === "") return;
        const newOptions = await getAutoCompleteData(newInputValue)
        setOptions(newOptions?.data)
    }

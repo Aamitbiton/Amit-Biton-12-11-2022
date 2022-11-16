@@ -6,7 +6,6 @@ import styled from "styled-components";
 import DayBox from "./dayBox";
 
 const WhetherBox = () => {
-    const days = ['ראשון','שני','שלישי','רביעי','חמישי']
   const currentLocation = useSelector(
     (state: any) => state.app
   ).currentLocation;
@@ -21,7 +20,8 @@ const WhetherBox = () => {
       </p>
         <WeatherIcon iconKey={ JSON.stringify(currentLocation.WeatherIcon)}/>
          <DayBoxContainer>
-             {days.map((day)=>{
+             <p>Forecast for 5 days</p>
+             {currentLocation.DailyForecasts.map((day: object)=>{
                return  <DayBox day={day}/>
 
              })}
@@ -41,7 +41,8 @@ const DayBoxContainer = styled.div`
   display: grid;
   grid-gap: 16px;
   align-items: stretch;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+  grid-template-rows: auto;
   justify-content: center;
 `
 export default WhetherBox;

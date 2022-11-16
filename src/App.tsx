@@ -44,7 +44,6 @@ const MainWrapper = styled.div`
   height: 100%;
   
   width: 100%;
-  padding: 20px;
 `;
 
 export default App;
