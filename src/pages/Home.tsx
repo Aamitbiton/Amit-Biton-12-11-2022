@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { getLocationLabel } from "../utils/weatherUtils";
-import WeatherIcon from "./WeatherIcon";
+import WeatherIcon from "../components/WeatherIcon";
 import styled from "styled-components";
-import DayBox from "./dayBox";
+import DayBox from "../components/dayBox";
 
-const WhetherBox = () => {
+const Home = () => {
   const currentLocation = useSelector(
     (state: any) => state.app
   ).currentLocation;
@@ -45,4 +45,4 @@ const DayBoxContainer = styled.div`
   grid-template-rows: auto;
   justify-content: center;
 `
-export default WhetherBox;
+export default Home;

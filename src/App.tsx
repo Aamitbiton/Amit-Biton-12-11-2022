@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentLocation } from "./store/slice";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import SearchBar from "./components/SearchBar";
 import styled from "styled-components";
-import WhetherBox from "./components/WhetherBox";
+import Home from "./pages/Home";
 import { getWeatherByLocation } from "./utils/weatherUtils";
 import { Box, CircularProgress } from "@mui/material";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+import Favorites from "./pages/Favorites";
+
 
 function App() {
   const currentLocation = useSelector(
@@ -21,7 +23,11 @@ function App() {
       {currentLocation?.LocalizedName ? (
         <>
           <SearchBar />
-          <WhetherBox />
+          <Router>
+              <Route path={'/'} element={ <Home />}/>
+              <Route path={'/favorites'} element={ <Favorites />}/>
+\          </Router>
+
         </>
       ) : (
         <Box

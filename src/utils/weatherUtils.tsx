@@ -11,12 +11,18 @@ import asyncMiddleware from "./utils";
 interface IGeoLocation {
   coords: { latitude: number; longitude: number };
 }
+const defaultLocation = {
+  Key: 215793,
+  LocalizedName: "Tel Aviv",
+  AdministrativeArea: {LocalizedName: "Tel Aviv"},
+  Country: {LocalizedName:"Israel"}
+};
 
 const getLocation = (): IGeoLocation | any => {
   const options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
   return new Promise((resolve, reject) =>
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
-  );
+  ).catch(()=>null);
 };
 
 export const getLocationLabel = (location: any): string => {
@@ -31,20 +37,21 @@ export const getLocationLabel = (location: any): string => {
 };
 
 export const getWeatherByLocation = async () => {
+
   const myLocation = await getLocation();
-  let locationObject = await getLocationObject(myLocation);
-  let weatherObject = await getWeatherObject(locationObject);
-  let dailyForecast = await getDailyForecast(locationObject.Key);
+ const  locationObject = myLocation ? await getLocationObject(myLocation) :defaultLocation;
+  let weatherObject = await getWeatherObject(locationObject?.Key);
+  let dailyForecast = await getDailyForecast(locationObject?.Key);
   let newData = {
     ...weatherObject,
-    ...locationObject,
     ...dailyForecast,
+      ...locationObject
   };
   store.dispatch(setCurrentLocation(newData));
 };
 
 export const changeCurrentLocation = async (locationObject: any) => {
-  let weatherObject = await getWeatherObject(locationObject)
+  let weatherObject = await getWeatherObject(locationObject?.Key)
   let dailyForecast = await getDailyForecast(locationObject?.Key)
   let newData = { ...weatherObject, ...locationObject, ...dailyForecast};
   await store.dispatch(setCurrentLocation(newData));
@@ -59,9 +66,9 @@ export const getDailyForecast = async (key: string) => {
     return {DailyForecasts: res?.data?.DailyForecasts}
 };
 
-export const getWeatherObject = async (locationObject: any) => {
+export const getWeatherObject = async (key: string) => {
     let res = await (fetch_url({
-      url: getCurrentConditionsUrl(locationObject?.Key),
+      url: getCurrentConditionsUrl(key),
     }));
     return res?.data[0];
 };
