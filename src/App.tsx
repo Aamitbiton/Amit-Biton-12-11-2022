@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Home from "./pages/Home";
 import { getWeatherByLocation } from "./utils/weatherUtils";
 import { Box, CircularProgress } from "@mui/material";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Favorites from "./pages/Favorites";
 
 
@@ -24,9 +24,12 @@ function App() {
         <>
           <SearchBar />
           <Router>
+            <Routes>
               <Route path={'/'} element={ <Home />}/>
               <Route path={'/favorites'} element={ <Favorites />}/>
-\          </Router>
+            </Routes>
+
+          </Router>
 
         </>
       ) : (
