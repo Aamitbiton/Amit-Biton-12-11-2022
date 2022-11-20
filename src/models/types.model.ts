@@ -9,7 +9,16 @@ export default interface ILocation {
   Country: { ID: string; LocalizedName: string };
   Key: string;
   LocalizedName: string;
-  Rank: string;
-  Type: string;
-  Version: number;
-}
+ }
+ export default interface IFavorite {
+   name: string,
+   id: string,
+   icon: string,
+   weather: {title: string, temp: string},
+   locationObject: {
+     AdministrativeArea: { ID: string; LocalizedName: string };
+     Country: { ID: string; LocalizedName: string };
+     Key: string;
+     LocalizedName: string
+   }
+ }

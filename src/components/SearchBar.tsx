@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { useSelector } from "react-redux";
-
 import {changeCurrentLocation, getAutoCompleteData, getLocationLabel} from "../utils/weatherUtils";
+import styled from "styled-components";
 
 const SearchBar = () => {
   const currentLocation = useSelector(
@@ -23,13 +23,13 @@ const SearchBar = () => {
   };
   const updateOptions = async (newInputValue: string)=>{
        setInputValue(newInputValue);
-       if (newInputValue.length > 2 || !newInputValue || newInputValue === "") return;
+       if (newInputValue.length < 1 || !newInputValue || newInputValue === "") return;
        const newOptions = await getAutoCompleteData(newInputValue)
        setOptions(newOptions?.data)
    }
 
   return (
-    <div>
+    <SearchBarWrapper>
       <Autocomplete
         value={value}
         onChange={(event: any, newValue: any) => {
@@ -42,13 +42,15 @@ const SearchBar = () => {
         id="controllable-states-demo"
         getOptionLabel={(option) => getLocationLabel(option)}
         options={options}
-        fullWidth={true}
+        sx={{width: '350px'}}
         renderInput={(params) => (
           <TextField {...params} label="search by country or city" />
         )}
       />
-    </div>
+    </SearchBarWrapper>
   );
 };
-
+const SearchBarWrapper = styled.div`
+    margin-bottom: 10px;
+`
 export default SearchBar;

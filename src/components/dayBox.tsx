@@ -12,10 +12,10 @@ const DayBox = ({day}: Iprop) => {
     }
     return (
         <DayBoxContainer>
-            <div>
+            <TitleWrapper>
                 <p>{dayString()}</p>
                 <p>{shortenString(day.Day.IconPhrase)}</p>
-            </div>
+            </TitleWrapper>
             <WeatherIcon iconKey={ JSON.stringify(day.Day.Icon)}/>
             <p>{convertFahrenheitToCelsius(day.Temperature.Minimum.Value)} - {convertFahrenheitToCelsius(day.Temperature.Maximum.Value)}c</p>
 
@@ -32,4 +32,6 @@ const DayBoxContainer = styled.div`
   border-radius: 15px;
   padding: 8px 16px;
 `;
+const TitleWrapper = styled.div`
+flex-grow: 1`
 export default DayBox;

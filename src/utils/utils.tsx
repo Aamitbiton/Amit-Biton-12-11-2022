@@ -1,8 +1,9 @@
+import {toast} from "react-toastify";
 export default async function asyncMiddleware<T>(handler: () => T) {
   try {
     return await handler();
-  } catch (e) {
-    alert(e);
+  } catch (e: any) {
+    toastify(e);
     console.error(e);
   }
 }
@@ -25,3 +26,13 @@ export const getDay = (date: string): string => {
 
 export const convertFahrenheitToCelsius = (degrees: number):number => Math.floor(5 / 9 * (degrees - 32));
 
+export const toastify = (title: string)=>{
+
+  toast(title, {
+    position: "bottom-center",
+    autoClose: 3000,
+    closeOnClick: true,
+    draggable: true,
+    theme: "dark",
+  });
+}

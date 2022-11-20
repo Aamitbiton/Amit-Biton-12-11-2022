@@ -7,7 +7,7 @@ import {
   getDailyForecastUrl,
 } from "./urlGenerator";
 import { setCurrentLocation } from "../store/slice";
-import asyncMiddleware from "./utils";
+import asyncMiddleware, {toastify} from "./utils";
 interface IGeoLocation {
   coords: { latitude: number; longitude: number };
 }
@@ -22,24 +22,33 @@ const getLocation = (): IGeoLocation | any => {
   const options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
   return new Promise((resolve, reject) =>
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
-  ).catch(()=>null);
+  ).catch(()=>{
+      toastify('We could not access your location, showing the default location')
+     return null
+  });
 };
 
 export const getLocationLabel = (location: any): string => {
   if (!location.LocalizedName) return "";
-  return (
+ if (location?.LocalizedName === location?.AdministrativeArea?.LocalizedName)
+     return (
     location?.LocalizedName +
-    "," +
-    location?.AdministrativeArea?.LocalizedName +
     "," +
     location?.Country?.LocalizedName
   );
+ else return (
+     location?.LocalizedName +
+     "," +
+     location?.AdministrativeArea?.LocalizedName +
+     "," +
+     location?.Country?.LocalizedName
+ )
 };
 
 export const getWeatherByLocation = async () => {
 
   const myLocation = await getLocation();
- const  locationObject = myLocation ? await getLocationObject(myLocation) :defaultLocation;
+ const  locationObject = myLocation ? await getLocationObject(myLocation) : defaultLocation;
   let weatherObject = await getWeatherObject(locationObject?.Key);
   let dailyForecast = await getDailyForecast(locationObject?.Key);
   let newData = {

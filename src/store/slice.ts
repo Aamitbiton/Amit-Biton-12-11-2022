@@ -1,30 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
-import IFavoriteLocation from "../models/types.model";
-import ILocation from "../models/types.model";
+import IFavorite from "../models/types.model";
 
 interface AppInitialState {
-  allFavorites: any[];
+  favorites: IFavorite[];
   currentLocation: any;
+  darkMode: boolean
 }
 
 const initialState = {
-  allFavorites: [],
+  favorites: [],
   currentLocation: {},
+  darkMode: true
 } as AppInitialState;
 
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    getDefaultWeather: (app, action) => {
-      app.allFavorites.push(action.payload);
+    addToFavorites: (app, action) => {
+      app.favorites.push(action.payload);
+    },
+    deleteFavorite: (app,action)=>{
+      app.favorites = action.payload
     },
     setCurrentLocation: (app, action) => {
       app.currentLocation = action.payload;
     },
+    setDarkMode: (app, action)=>{
+      app.darkMode = action.payload
+    }
   },
 });
 
-export const { getDefaultWeather, setCurrentLocation } = appSlice.actions;
+export const { deleteFavorite,addToFavorites, setCurrentLocation, setDarkMode } = appSlice.actions;
 
 export default appSlice.reducer;
