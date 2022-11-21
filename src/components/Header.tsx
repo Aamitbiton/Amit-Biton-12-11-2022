@@ -18,7 +18,7 @@ const Header = () => {
       <ButtonContainer>
         <Button
           onClick={() => handleClick("/")}
-          color={!isFavorite ? "secondary" : "inherit"}
+          color={!isFavorite ? "primary" : "inherit"}
           variant="text"
         >
           Home
@@ -26,7 +26,7 @@ const Header = () => {
         |
         <Button
           onClick={() => handleClick("/favorites")}
-          color={isFavorite ? "secondary" : "inherit"}
+          color={isFavorite ? "primary" : "inherit"}
           variant="text"
         >
           Favorites

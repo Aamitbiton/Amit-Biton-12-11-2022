@@ -13,9 +13,9 @@ const DegreesSwitch = () => {
     return (
         <SwitchWrapper>
             <Stack direction="row" spacing={1} alignItems="center">
-                <Typography>C</Typography>
-                <CustomDegreesSwitch sx={{m:0}} onChange={changeCelsius} defaultChecked  />
                 <Typography>F</Typography>
+                <CustomDegreesSwitch sx={{m:0}} onChange={changeCelsius} defaultChecked  />
+                <Typography>C</Typography>
             </Stack>
         </SwitchWrapper>
     );
@@ -56,8 +56,7 @@ const CustomDegreesSwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-track': {
         borderRadius: 16 / 2,
         opacity: 1,
-        backgroundColor:
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
         boxSizing: 'border-box',
     },
 }));
