@@ -1,12 +1,15 @@
 import React from "react";
-import { convertFahrenheitToCelsius, getDay } from "../utils/utils";
+import {convertDegrees, convertFahrenheitToCelsius, getDay} from "../utils/utils";
 import WeatherIcon from "./WeatherIcon";
 import { styled } from "@mui/material";
+import {useSelector} from "react-redux";
 interface Iprop {
   day: any;
 }
 const DayBox = ({ day }: Iprop) => {
   const dayString = () => getDay(day.Date);
+  const viewCelsius = useSelector((state: any) => state.app).viewCelsius;
+
   const shortenString = (string: string) => {
     let split = string.split(" ");
     let newArray = [split[0], split[1]];
@@ -20,8 +23,8 @@ const DayBox = ({ day }: Iprop) => {
       </TitleWrapper>
       <WeatherIcon iconKey={JSON.stringify(day.Day.Icon)} />
       <p>
-        {convertFahrenheitToCelsius(day.Temperature.Minimum.Value)} -{" "}
-        {convertFahrenheitToCelsius(day.Temperature.Maximum.Value)}c
+        {convertDegrees(viewCelsius,false,day.Temperature.Minimum.Value)} -
+        {convertDegrees(viewCelsius,false,day.Temperature.Maximum.Value)}
       </p>
     </DayBoxContainer>
   );

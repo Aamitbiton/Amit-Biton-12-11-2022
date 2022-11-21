@@ -3,9 +3,9 @@ import IFavorite from "../models/types.model";
 import WeatherIcon from "./WeatherIcon";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { deleteFavorite } from "../store/slice";
-import { toastify } from "../utils/utils";
+import {convertDegrees, toastify} from "../utils/utils";
 import { changeCurrentLocation } from "../utils/weatherUtils";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material";
@@ -17,12 +17,13 @@ interface data {
 const FavoriteBox = ({ favorite, favorites }: data) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const viewCelsius = useSelector((state: any) => state.app).viewCelsius;
   const removeFavorite = () => {
     let index = favorites.indexOf(favorite);
     let newFavorites = [...favorites];
     newFavorites = newFavorites.length > 1 ? newFavorites.splice(index, 1) : [];
     dispatch(deleteFavorite(newFavorites));
-    toastify(` ${favorite.name} successfully removed to favorites`, true);
+    toastify(` ${favorite.name} successfully removed to favorites`, false);
   };
   const watchFavorite = async () => {
     await changeCurrentLocation(favorite.locationObject);
@@ -37,7 +38,7 @@ const FavoriteBox = ({ favorite, favorites }: data) => {
     <FavoriteBoxWrapper>
       <p>{reduceName(favorite.name)}</p>
       <WeatherIcon iconKey={favorite.icon} />
-      <p>{favorite.weather.temp}</p>
+      <p>{convertDegrees(viewCelsius,true,Number(favorite.weather.temp))}</p>
       <p>{favorite.weather.title}</p>
       <ActionButtonContainer onClick={removeFavorite}>
         <DeleteIcon />

@@ -4,13 +4,15 @@ import IFavorite from "../models/types.model";
 interface AppInitialState {
   favorites: IFavorite[];
   currentLocation: any;
-  darkMode: boolean
+  darkMode: boolean;
+  viewCelsius: boolean;
 }
 
 const initialState = {
   favorites: [],
   currentLocation: {},
-  darkMode: true
+  darkMode: true,
+  viewCelsius: true
 } as AppInitialState;
 
 const appSlice = createSlice({
@@ -28,10 +30,13 @@ const appSlice = createSlice({
     },
     setDarkMode: (app, action)=>{
       app.darkMode = action.payload
+    },
+    setViewCelsius: (app, action)=>{
+      app.viewCelsius = action.payload
     }
   },
 });
 
-export const { deleteFavorite,addToFavorites, setCurrentLocation, setDarkMode } = appSlice.actions;
+export const { deleteFavorite,addToFavorites, setCurrentLocation, setDarkMode, setViewCelsius } = appSlice.actions;
 
 export default appSlice.reducer;

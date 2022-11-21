@@ -3,7 +3,7 @@ import { FormControlLabel, styled, Switch } from "@mui/material";
 import { setDarkMode } from "../store/slice";
 import { useDispatch, useSelector } from "react-redux";
 
-const CustomSwitch = () => {
+const DarkModeSwitch = () => {
   const darkMode = useSelector((state: any) => state.app).darkMode;
   const dispatch = useDispatch();
   const changeTheme = () => {
@@ -12,14 +12,17 @@ const CustomSwitch = () => {
 
   return (
     <SwitchWrapper>
-      <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+      <CustomForm
+        control={<MaterialUISwitch sx={{ m: 0}} defaultChecked />}
         label=""
         onChange={changeTheme}
       />
     </SwitchWrapper>
   );
 };
+const CustomForm = styled(FormControlLabel)(()=>({
+  margin: 0
+}))
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -68,7 +71,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 const SwitchWrapper = styled("div")(() => ({
   display: "flex",
-  gridColumnEnd: "none",
+  placeSelf: "end",
 }));
 
-export default CustomSwitch;
+export default DarkModeSwitch;

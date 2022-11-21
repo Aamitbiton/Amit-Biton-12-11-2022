@@ -25,7 +25,7 @@ const getLocation = (): IGeoLocation | any => {
   ).catch(() => {
     toastify(
       "We could not access your location, showing the default location",
-      true
+      false
     );
     return null;
   });

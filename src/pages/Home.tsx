@@ -6,7 +6,7 @@ import styled, { keyframes } from "styled-components";
 import DayBox from "../components/dayBox";
 import SearchBar from "../components/SearchBar";
 import { addToFavorites, deleteFavorite } from "../store/slice";
-import { toastify } from "../utils/utils";
+import { convertDegrees, toastify } from "../utils/utils";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Button } from "@mui/material";
@@ -17,6 +17,7 @@ const Home = () => {
     (state: any) => state.app
   ).currentLocation;
   const favorites = useSelector((state: any) => state.app).favorites;
+  const viewCelsius = useSelector((state: any) => state.app).viewCelsius;
   const dispatch = useDispatch();
   const checkIfExistInFavorites = favorites.length
     ? favorites.filter((fav: any) => fav.id === currentLocation.Key).length
@@ -29,9 +30,7 @@ const Home = () => {
       icon: JSON.stringify(currentLocation.WeatherIcon),
       weather: {
         title: currentLocation.WeatherText,
-        temp:
-          currentLocation?.Temperature?.Metric?.Value +
-          currentLocation?.Temperature?.Metric?.Unit,
+        temp: currentLocation?.Temperature?.Metric?.Value,
       },
       locationObject: {
         AdministrativeArea: currentLocation.AdministrativeArea,
@@ -64,8 +63,11 @@ const Home = () => {
           <div>
             <p>{currentLocation?.WeatherText}</p>
             <p>
-              {currentLocation?.Temperature?.Metric?.Value +
-                currentLocation?.Temperature?.Metric?.Unit}
+              {convertDegrees(
+                viewCelsius,
+                true,
+                currentLocation?.Temperature?.Metric?.Value
+              )}
             </p>
             <WeatherIcon
               iconKey={JSON.stringify(currentLocation.WeatherIcon)}

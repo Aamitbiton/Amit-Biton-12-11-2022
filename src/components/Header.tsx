@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, FormControlLabel, Switch, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode } from "../store/slice";
-import CustomSwitch from "./CustomSwitch";
+import DarkModeSwitch from "./DarkModeSwitch";
+import DegreesSwitch from "./DegreesSwitch";
 const Header = () => {
   const navigate = useNavigate();
   const handleClick = (to: string) => {
@@ -13,6 +14,7 @@ const Header = () => {
   const isFavorite = window.location.href.includes("favorites");
   return (
     <HeaderWrapper>
+      <DegreesSwitch/>
       <ButtonContainer>
         <Button
           onClick={() => handleClick("/")}
@@ -30,7 +32,7 @@ const Header = () => {
           Favorites
         </Button>
       </ButtonContainer>
-      <CustomSwitch />
+      <DarkModeSwitch />
     </HeaderWrapper>
   );
 };
@@ -38,7 +40,7 @@ const HeaderWrapper = styled.div`
   position: static;
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   top: 0;
   padding: 5px;
   justify-content: space-between;

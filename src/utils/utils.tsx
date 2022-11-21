@@ -3,7 +3,7 @@ export default async function asyncMiddleware<T>(handler: () => T) {
   try {
     return await handler();
   } catch (e: any) {
-    alert('You have exceeded the number of requests allowed')
+    alert("You have exceeded the number of requests allowed");
     console.error(e);
   }
 }
@@ -24,8 +24,15 @@ export const getDay = (date: string): string => {
   else return dayArray[index];
 };
 
-export const convertFahrenheitToCelsius = (degrees: number): number =>
-  Math.floor((5 / 9) * (degrees - 32));
+export const convertFahrenheitToCelsius = (fahrenheit: number): string => {
+  let degrees = Math.floor((5 / 9) * (fahrenheit - 32));
+  return degrees + "c";
+};
+
+export const convertCelsiusToFahrenheit = (celsius: number): string => {
+  let degrees = (celsius * 9) / 5 + 32;
+  return degrees + "f";
+};
 
 export const toastify = (title: string, error: boolean) => {
   if (error) {
@@ -45,4 +52,14 @@ export const toastify = (title: string, error: boolean) => {
       theme: "dark",
     });
   }
+};
+
+export const convertDegrees = (
+  viewCelsius: boolean,
+  celsius: boolean,
+  value: number
+): string => {
+  if (viewCelsius && celsius) return value + "c";
+  else if (viewCelsius && !celsius) return convertFahrenheitToCelsius(value);
+  else return convertCelsiusToFahrenheit(value);
 };
