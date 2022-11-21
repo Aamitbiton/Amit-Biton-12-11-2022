@@ -2,14 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocationLabel } from "../utils/weatherUtils";
 import WeatherIcon from "../components/WeatherIcon";
-import styled, {keyframes} from "styled-components";
+import styled, { keyframes } from "styled-components";
 import DayBox from "../components/dayBox";
 import SearchBar from "../components/SearchBar";
 import { addToFavorites, deleteFavorite } from "../store/slice";
 import { toastify } from "../utils/utils";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import { slideInUp } from "react-animations";
 
 const Home = () => {
@@ -18,7 +18,9 @@ const Home = () => {
   ).currentLocation;
   const favorites = useSelector((state: any) => state.app).favorites;
   const dispatch = useDispatch();
-  const checkIfExistInFavorites =favorites.length ? favorites.filter((fav: any) => fav.id === currentLocation.Key).length : null;
+  const checkIfExistInFavorites = favorites.length
+    ? favorites.filter((fav: any) => fav.id === currentLocation.Key).length
+    : null;
 
   const addOrRemoveFavorite = () => {
     let data = {
@@ -42,12 +44,13 @@ const Home = () => {
     if (checkIfExistInFavorites) {
       let index = favorites.indexOf(data);
       let newFavorites = [...favorites];
-      newFavorites =  newFavorites.length > 1 ? newFavorites.splice(index,1) : []
-      dispatch(deleteFavorite(newFavorites))
-      toastify(`${data.name} successfully removed from favorites`);
+      newFavorites =
+        newFavorites.length > 1 ? newFavorites.splice(index, 1) : [];
+      dispatch(deleteFavorite(newFavorites));
+      toastify(`${data.name} successfully removed from favorites`, false);
     } else {
       dispatch(addToFavorites(data));
-      toastify(`${data.name} successfully added to favorites`);
+      toastify(`${data.name} successfully added to favorites`, false);
     }
   };
 
@@ -69,18 +72,19 @@ const Home = () => {
             />
           </div>
 
-            <Button
-              onClick={addOrRemoveFavorite}
-              style={{color: '#6565fd'}}
-              variant="text"
-              size={"small"}
-              startIcon={ checkIfExistInFavorites ? <StarBorderIcon/> :<StarIcon />}
-            >
-                {checkIfExistInFavorites ? 'remove from favorite' : 'add to favorites'}
-            </Button>
-
-
-
+          <Button
+            onClick={addOrRemoveFavorite}
+            style={{ color: "#6565fd" }}
+            variant="text"
+            size={"small"}
+            startIcon={
+              checkIfExistInFavorites ? <StarIcon /> : <StarBorderIcon />
+            }
+          >
+            {checkIfExistInFavorites
+              ? "remove from favorite"
+              : "add to favorites"}
+          </Button>
         </Row>
 
         <DayBoxContainer>
@@ -108,7 +112,6 @@ const DayBoxContainer = styled.div`
   grid-template-rows: auto;
   justify-content: center;
   animation: 2.5s ${keyframes`${slideInUp}`};
-
 `;
 const Row = styled.div`
   display: flex;

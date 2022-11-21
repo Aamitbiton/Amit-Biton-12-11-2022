@@ -9,10 +9,10 @@ html {
 }
 .css-1qxadfk-MuiPaper-root-MuiDialog-paper, .css-sd33hq {
 
-  background-color: #1b1b41 !important;
+  /*background-color: #1b1b41 !important;*/
 }
 :root {
-  color-scheme: dark;
+  /*color-scheme: dark;*/
   --primary-color: #6565fd;
   --background-color: #1b1b41;
   --surface-color: #20204b;
@@ -26,5 +26,5 @@ body,
 }
 
 body {
-  background-color: var(--background-color);
+  /*background-color: var(--background-color);*/
 }

@@ -11,6 +11,8 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider} from "@mui/material";
 import {darkTheme,lightTheme} from "./utils/themes";
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 
 function App() {
@@ -25,7 +27,8 @@ function App() {
   }, []);
 
   return (
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <CssBaseline/>
       <MainWrapper>
       {currentLocation?.LocalizedName ? (
         <>
